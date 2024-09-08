@@ -1,0 +1,33 @@
+# Ignore the build directory (CMake-generated)
+build/
+cmake-build-*/
+
+# Ignore compiled object files
+*.o
+*.obj
+
+# Ignore compiled libraries
+*.lib
+*.a
+*.so
+*.dll
+*.dylib
+
+# Ignore executable files
+*.exe
+*.out
+
+
+# Ignore Visual Studio files
+*.vcxproj
+*.sln
+*.vcxproj.user
+*.user
+
+# clion
+.idea
+
+# Ignore system-specific files
+.DS_Store   # macOS
+Thumbs.db   # Windows
+
