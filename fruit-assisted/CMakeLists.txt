@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(fruit-required)
+project(fruit-assisted)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -12,6 +12,7 @@ main.cpp
 add_executable(hello ${HELLO_WORLD_SOURCES})
 
 if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    message("first if branch")
     execute_process(
             COMMAND brew --prefix fruit
             OUTPUT_VARIABLE FRUIT_PREFIX

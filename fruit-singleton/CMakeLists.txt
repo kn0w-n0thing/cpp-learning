@@ -21,6 +21,6 @@ if (${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
     include_directories(${FRUIT_PREFIX}/include)
 
     target_link_libraries(hello ${FRUIT_PREFIX}/lib/libfruit.dylib)
-elseif ()
+else ()
     target_link_libraries(hello fruit)
 endif ()
