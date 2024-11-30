@@ -32,11 +32,31 @@ Component<UniqueWriterFactory> getUniqueWriterFactory() {
     return createComponent().bind<Writer, WriterImpl>();
 }
 
-int main() {
-    // Create an injector that provides both Writer and Greeter components
-    Injector<UniqueWriterFactory> injector(getUniqueWriterFactory);
+fruit::Component<std::string> getMessageComponent() {
+    return fruit::createComponent()
+            .registerProvider([]() {
+                return std::string("Required string injection!");
+            });
+}
 
-    UniqueWriterFactory factory = injector.get<UniqueWriterFactory>();
+fruit::Component<Required<std::string>, Writer> getWriterRequiredString() {
+    return fruit::createComponent()
+            .registerConstructor<WriterImpl(std::string)>()
+            .bind<Writer, WriterImpl>();
+
+}
+
+fruit::Component<Writer> getWriterComponent() {
+    return fruit::createComponent()
+            .install(getWriterRequiredString)
+            .install(getMessageComponent);
+}
+
+int main() {
+    // Create an injectorAssisted that provides both Writer and Greeter components
+    Injector<UniqueWriterFactory> injectorAssisted(getUniqueWriterFactory);
+
+    UniqueWriterFactory factory = injectorAssisted.get<UniqueWriterFactory>();
 
     std::unique_ptr<Writer> unique_writer = factory("Unique assisted injection!");
     unique_writer->write();
@@ -49,6 +69,10 @@ int main() {
     shared_writer1->write();
     shared_writer2->write();
     std::cout << "Count the shared writer is: " << shared_writer1.use_count() << std::endl;
+
+    Injector<Writer> injectorRequired(getWriterComponent);
+    std::shared_ptr<Writer> shared_writer3 = injectorRequired.get<std::shared_ptr<Writer>>();
+    shared_writer3->write();
 
     return 0;
 }
